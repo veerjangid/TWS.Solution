@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TWS.Data.Context;
 
@@ -11,9 +12,11 @@ using TWS.Data.Context;
 namespace TWS.Data.Migrations
 {
     [DbContext(typeof(TWSDbContext))]
-    partial class TWSDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250929190303_AddInvestorProfileEntities")]
+    partial class AddInvestorProfileEntities
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

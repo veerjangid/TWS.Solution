@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using TWS.Core.Constants;
 using TWS.Data.Entities.Core;
 using TWS.Data.Entities.Identity;
+using TWS.Data.Entities.TypeSpecific;
 
 namespace TWS.Data.Context
 {
@@ -37,13 +38,45 @@ namespace TWS.Data.Context
         /// </summary>
         public DbSet<RefreshToken> RefreshTokens { get; set; }
 
+        /// <summary>
+        /// InvestorProfiles table - base investor profile linked to ApplicationUser
+        /// Reference: DatabaseSchema.md Table 4
+        /// </summary>
+        public DbSet<InvestorProfile> InvestorProfiles { get; set; }
+
+        /// <summary>
+        /// IndividualInvestorDetails table - type-specific details for individual investors
+        /// Reference: DatabaseSchema.md Table 5
+        /// </summary>
+        public DbSet<IndividualInvestorDetail> IndividualInvestorDetails { get; set; }
+
+        /// <summary>
+        /// JointInvestorDetails table - type-specific details for joint investors
+        /// Reference: DatabaseSchema.md Table 6
+        /// </summary>
+        public DbSet<JointInvestorDetail> JointInvestorDetails { get; set; }
+
+        /// <summary>
+        /// IRAInvestorDetails table - type-specific details for IRA investors
+        /// Reference: DatabaseSchema.md Table 7
+        /// </summary>
+        public DbSet<IRAInvestorDetail> IRAInvestorDetails { get; set; }
+
+        /// <summary>
+        /// TrustInvestorDetails table - type-specific details for trust investors
+        /// Reference: DatabaseSchema.md Table 8
+        /// </summary>
+        public DbSet<TrustInvestorDetail> TrustInvestorDetails { get; set; }
+
+        /// <summary>
+        /// EntityInvestorDetails table - type-specific details for entity investors
+        /// Reference: DatabaseSchema.md Table 9
+        /// </summary>
+        public DbSet<EntityInvestorDetail> EntityInvestorDetails { get; set; }
+
         // Future DbSets - Will be added in subsequent phases:
-        // public DbSet<Investor> Investors { get; set; }
         // public DbSet<GeneralInfo> GeneralInfos { get; set; }
         // public DbSet<JointAccountHolder> JointAccountHolders { get; set; }
-        // public DbSet<TrustInvestorDetail> TrustInvestorDetails { get; set; }
-        // public DbSet<EntityInvestorDetail> EntityInvestorDetails { get; set; }
-        // public DbSet<IRAInvestorDetail> IRAInvestorDetails { get; set; }
         // public DbSet<Accreditation> Accreditations { get; set; }
         // public DbSet<InvestmentProfile> InvestmentProfiles { get; set; }
         // public DbSet<Beneficiary> Beneficiaries { get; set; }

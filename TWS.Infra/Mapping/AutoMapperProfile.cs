@@ -1,9 +1,12 @@
 using AutoMapper;
 using TWS.Core.DTOs.Request.Account;
+using TWS.Core.DTOs.Request.Investor;
 using TWS.Core.DTOs.Response.Account;
 using TWS.Core.DTOs.Response.Auth;
+using TWS.Core.DTOs.Response.Investor;
 using TWS.Data.Entities.Core;
 using TWS.Data.Entities.Identity;
+using TWS.Data.Entities.TypeSpecific;
 
 namespace TWS.Infra.Mapping
 {
@@ -48,6 +51,108 @@ namespace TWS.Infra.Mapping
                 .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
                 .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.FullName))
                 .ForMember(dest => dest.Role, opt => opt.Ignore());
+
+            // Investor Profile mappings - Request to Entity
+            CreateMap<SelectInvestorTypeIndividualRequest, IndividualInvestorDetail>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore())
+                .ForMember(dest => dest.InvestorProfileId, opt => opt.Ignore())
+                .ForMember(dest => dest.InvestorProfile, opt => opt.Ignore());
+
+            CreateMap<SelectInvestorTypeJointRequest, JointInvestorDetail>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore())
+                .ForMember(dest => dest.InvestorProfileId, opt => opt.Ignore())
+                .ForMember(dest => dest.InvestorProfile, opt => opt.Ignore());
+
+            CreateMap<SelectInvestorTypeIRARequest, IRAInvestorDetail>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore())
+                .ForMember(dest => dest.InvestorProfileId, opt => opt.Ignore())
+                .ForMember(dest => dest.InvestorProfile, opt => opt.Ignore());
+
+            CreateMap<SelectInvestorTypeTrustRequest, TrustInvestorDetail>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore())
+                .ForMember(dest => dest.InvestorProfileId, opt => opt.Ignore())
+                .ForMember(dest => dest.InvestorProfile, opt => opt.Ignore());
+
+            CreateMap<SelectInvestorTypeEntityRequest, EntityInvestorDetail>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore())
+                .ForMember(dest => dest.InvestorProfileId, opt => opt.Ignore())
+                .ForMember(dest => dest.InvestorProfile, opt => opt.Ignore());
+
+            // Investor Profile mappings - Entity to Response
+            CreateMap<InvestorProfile, InvestorProfileResponse>()
+                .ForMember(dest => dest.InvestorTypeName, opt => opt.MapFrom(src => src.InvestorType.ToString()))
+                .ForMember(dest => dest.AccreditationTypeName, opt => opt.MapFrom(src => src.AccreditationType.HasValue ? src.AccreditationType.ToString() : null))
+                .ForMember(dest => dest.TypeSpecificDetails, opt => opt.Ignore());
+
+            CreateMap<IndividualInvestorDetail, InvestorProfileResponse>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.InvestorProfileId))
+                .ForMember(dest => dest.UserId, opt => opt.Ignore())
+                .ForMember(dest => dest.InvestorType, opt => opt.Ignore())
+                .ForMember(dest => dest.InvestorTypeName, opt => opt.Ignore())
+                .ForMember(dest => dest.IsAccredited, opt => opt.Ignore())
+                .ForMember(dest => dest.AccreditationType, opt => opt.Ignore())
+                .ForMember(dest => dest.AccreditationTypeName, opt => opt.Ignore())
+                .ForMember(dest => dest.ProfileCompletionPercentage, opt => opt.Ignore())
+                .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())
+                .ForMember(dest => dest.UpdatedAt, opt => opt.Ignore())
+                .ForMember(dest => dest.IsActive, opt => opt.Ignore())
+                .ForMember(dest => dest.TypeSpecificDetails, opt => opt.MapFrom(src => src));
+
+            CreateMap<JointInvestorDetail, InvestorProfileResponse>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.InvestorProfileId))
+                .ForMember(dest => dest.UserId, opt => opt.Ignore())
+                .ForMember(dest => dest.InvestorType, opt => opt.Ignore())
+                .ForMember(dest => dest.InvestorTypeName, opt => opt.Ignore())
+                .ForMember(dest => dest.IsAccredited, opt => opt.Ignore())
+                .ForMember(dest => dest.AccreditationType, opt => opt.Ignore())
+                .ForMember(dest => dest.AccreditationTypeName, opt => opt.Ignore())
+                .ForMember(dest => dest.ProfileCompletionPercentage, opt => opt.Ignore())
+                .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())
+                .ForMember(dest => dest.UpdatedAt, opt => opt.Ignore())
+                .ForMember(dest => dest.IsActive, opt => opt.Ignore())
+                .ForMember(dest => dest.TypeSpecificDetails, opt => opt.MapFrom(src => src));
+
+            CreateMap<IRAInvestorDetail, InvestorProfileResponse>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.InvestorProfileId))
+                .ForMember(dest => dest.UserId, opt => opt.Ignore())
+                .ForMember(dest => dest.InvestorType, opt => opt.Ignore())
+                .ForMember(dest => dest.InvestorTypeName, opt => opt.Ignore())
+                .ForMember(dest => dest.IsAccredited, opt => opt.Ignore())
+                .ForMember(dest => dest.AccreditationType, opt => opt.Ignore())
+                .ForMember(dest => dest.AccreditationTypeName, opt => opt.Ignore())
+                .ForMember(dest => dest.ProfileCompletionPercentage, opt => opt.Ignore())
+                .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())
+                .ForMember(dest => dest.UpdatedAt, opt => opt.Ignore())
+                .ForMember(dest => dest.IsActive, opt => opt.Ignore())
+                .ForMember(dest => dest.TypeSpecificDetails, opt => opt.MapFrom(src => src));
+
+            CreateMap<TrustInvestorDetail, InvestorProfileResponse>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.InvestorProfileId))
+                .ForMember(dest => dest.UserId, opt => opt.Ignore())
+                .ForMember(dest => dest.InvestorType, opt => opt.Ignore())
+                .ForMember(dest => dest.InvestorTypeName, opt => opt.Ignore())
+                .ForMember(dest => dest.IsAccredited, opt => opt.Ignore())
+                .ForMember(dest => dest.AccreditationType, opt => opt.Ignore())
+                .ForMember(dest => dest.AccreditationTypeName, opt => opt.Ignore())
+                .ForMember(dest => dest.ProfileCompletionPercentage, opt => opt.Ignore())
+                .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())
+                .ForMember(dest => dest.UpdatedAt, opt => opt.Ignore())
+                .ForMember(dest => dest.IsActive, opt => opt.Ignore())
+                .ForMember(dest => dest.TypeSpecificDetails, opt => opt.MapFrom(src => src));
+
+            CreateMap<EntityInvestorDetail, InvestorProfileResponse>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.InvestorProfileId))
+                .ForMember(dest => dest.UserId, opt => opt.Ignore())
+                .ForMember(dest => dest.InvestorType, opt => opt.Ignore())
+                .ForMember(dest => dest.InvestorTypeName, opt => opt.Ignore())
+                .ForMember(dest => dest.IsAccredited, opt => opt.Ignore())
+                .ForMember(dest => dest.AccreditationType, opt => opt.Ignore())
+                .ForMember(dest => dest.AccreditationTypeName, opt => opt.Ignore())
+                .ForMember(dest => dest.ProfileCompletionPercentage, opt => opt.Ignore())
+                .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())
+                .ForMember(dest => dest.UpdatedAt, opt => opt.Ignore())
+                .ForMember(dest => dest.IsActive, opt => opt.Ignore())
+                .ForMember(dest => dest.TypeSpecificDetails, opt => opt.MapFrom(src => src));
         }
     }
 }

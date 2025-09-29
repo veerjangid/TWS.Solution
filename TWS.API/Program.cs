@@ -9,6 +9,7 @@ using TWS.Core.Settings;
 using TWS.Data.Context;
 using TWS.Data.Entities.Identity;
 using TWS.Data.Repositories.Core;
+using TWS.Data.Repositories.TypeSpecific;
 using TWS.Infra.Mapping;
 using TWS.Infra.Services.Core;
 using TWS.Infra.Services.Security;
@@ -79,11 +80,18 @@ builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 
 // Register Repositories
 builder.Services.AddScoped<IRequestAccountRepository, RequestAccountRepository>();
+builder.Services.AddScoped<IInvestorProfileRepository, InvestorProfileRepository>();
+builder.Services.AddScoped<IndividualInvestorDetailRepository>();
+builder.Services.AddScoped<JointInvestorDetailRepository>();
+builder.Services.AddScoped<IRAInvestorDetailRepository>();
+builder.Services.AddScoped<TrustInvestorDetailRepository>();
+builder.Services.AddScoped<EntityInvestorDetailRepository>();
 
 // Register Services
 builder.Services.AddScoped<IRequestAccountService, RequestAccountService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IInvestorService, InvestorService>();
 
 var app = builder.Build();
 

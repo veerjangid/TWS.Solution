@@ -1,0 +1,6 @@
+@TWS.API_HostAddress = http://localhost:5206
+
+GET {{TWS.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

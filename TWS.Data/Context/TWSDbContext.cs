@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using TWS.Core.Constants;
 using TWS.Data.Entities.Core;
+using TWS.Data.Entities.GeneralInfo;
 using TWS.Data.Entities.Identity;
 using TWS.Data.Entities.TypeSpecific;
 
@@ -74,9 +75,55 @@ namespace TWS.Data.Context
         /// </summary>
         public DbSet<EntityInvestorDetail> EntityInvestorDetails { get; set; }
 
+        /// <summary>
+        /// IndividualGeneralInfo table - general info for individual investors
+        /// Reference: DatabaseSchema.md Table 10
+        /// </summary>
+        public DbSet<IndividualGeneralInfo> IndividualGeneralInfos { get; set; }
+
+        /// <summary>
+        /// JointGeneralInfo table - general info for joint investors
+        /// Reference: DatabaseSchema.md Table 11
+        /// </summary>
+        public DbSet<JointGeneralInfo> JointGeneralInfos { get; set; }
+
+        /// <summary>
+        /// JointAccountHolders table - account holders for joint investments
+        /// Reference: DatabaseSchema.md Table 12
+        /// </summary>
+        public DbSet<JointAccountHolder> JointAccountHolders { get; set; }
+
+        /// <summary>
+        /// IRAGeneralInfo table - general info for IRA investors
+        /// Reference: DatabaseSchema.md Table 13
+        /// </summary>
+        public DbSet<IRAGeneralInfo> IRAGeneralInfos { get; set; }
+
+        /// <summary>
+        /// TrustGeneralInfo table - general info for trust investors
+        /// Reference: DatabaseSchema.md Table 14
+        /// </summary>
+        public DbSet<TrustGeneralInfo> TrustGeneralInfos { get; set; }
+
+        /// <summary>
+        /// TrustGrantors table - grantors for trust investors
+        /// Reference: DatabaseSchema.md Table 15
+        /// </summary>
+        public DbSet<TrustGrantor> TrustGrantors { get; set; }
+
+        /// <summary>
+        /// EntityGeneralInfo table - general info for entity investors
+        /// Reference: DatabaseSchema.md Table 16
+        /// </summary>
+        public DbSet<EntityGeneralInfo> EntityGeneralInfos { get; set; }
+
+        /// <summary>
+        /// EntityEquityOwners table - equity owners for entity investors
+        /// Reference: DatabaseSchema.md Table 17
+        /// </summary>
+        public DbSet<EntityEquityOwner> EntityEquityOwners { get; set; }
+
         // Future DbSets - Will be added in subsequent phases:
-        // public DbSet<GeneralInfo> GeneralInfos { get; set; }
-        // public DbSet<JointAccountHolder> JointAccountHolders { get; set; }
         // public DbSet<Accreditation> Accreditations { get; set; }
         // public DbSet<InvestmentProfile> InvestmentProfiles { get; set; }
         // public DbSet<Beneficiary> Beneficiaries { get; set; }

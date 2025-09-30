@@ -1,10 +1,13 @@
 using AutoMapper;
 using TWS.Core.DTOs.Request.Account;
+using TWS.Core.DTOs.Request.GeneralInfo;
 using TWS.Core.DTOs.Request.Investor;
 using TWS.Core.DTOs.Response.Account;
 using TWS.Core.DTOs.Response.Auth;
+using TWS.Core.DTOs.Response.GeneralInfo;
 using TWS.Core.DTOs.Response.Investor;
 using TWS.Data.Entities.Core;
+using TWS.Data.Entities.GeneralInfo;
 using TWS.Data.Entities.Identity;
 using TWS.Data.Entities.TypeSpecific;
 
@@ -153,6 +156,95 @@ namespace TWS.Infra.Mapping
                 .ForMember(dest => dest.UpdatedAt, opt => opt.Ignore())
                 .ForMember(dest => dest.IsActive, opt => opt.Ignore())
                 .ForMember(dest => dest.TypeSpecificDetails, opt => opt.MapFrom(src => src));
+
+            // General Info mappings - Request to Entity
+            CreateMap<SaveIndividualGeneralInfoRequest, IndividualGeneralInfo>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore())
+                .ForMember(dest => dest.IndividualInvestorDetailId, opt => opt.Ignore())
+                .ForMember(dest => dest.DriverLicensePath, opt => opt.Ignore())
+                .ForMember(dest => dest.W9Path, opt => opt.Ignore())
+                .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())
+                .ForMember(dest => dest.UpdatedAt, opt => opt.Ignore())
+                .ForMember(dest => dest.IndividualInvestorDetail, opt => opt.Ignore());
+
+            CreateMap<SaveJointGeneralInfoRequest, JointGeneralInfo>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore())
+                .ForMember(dest => dest.JointInvestorDetailId, opt => opt.Ignore())
+                .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())
+                .ForMember(dest => dest.UpdatedAt, opt => opt.Ignore())
+                .ForMember(dest => dest.JointInvestorDetail, opt => opt.Ignore())
+                .ForMember(dest => dest.JointAccountHolders, opt => opt.Ignore());
+
+            CreateMap<AddJointAccountHolderRequest, JointAccountHolder>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore())
+                .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())
+                .ForMember(dest => dest.UpdatedAt, opt => opt.Ignore())
+                .ForMember(dest => dest.JointGeneralInfo, opt => opt.Ignore());
+
+            CreateMap<SaveIRAGeneralInfoRequest, IRAGeneralInfo>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore())
+                .ForMember(dest => dest.IRAInvestorDetailId, opt => opt.Ignore())
+                .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())
+                .ForMember(dest => dest.UpdatedAt, opt => opt.Ignore())
+                .ForMember(dest => dest.IRAInvestorDetail, opt => opt.Ignore());
+
+            CreateMap<SaveTrustGeneralInfoRequest, TrustGeneralInfo>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore())
+                .ForMember(dest => dest.TrustInvestorDetailId, opt => opt.Ignore())
+                .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())
+                .ForMember(dest => dest.UpdatedAt, opt => opt.Ignore())
+                .ForMember(dest => dest.TrustInvestorDetail, opt => opt.Ignore())
+                .ForMember(dest => dest.TrustGrantors, opt => opt.Ignore());
+
+            CreateMap<AddTrustGrantorRequest, TrustGrantor>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore())
+                .ForMember(dest => dest.TrustGeneralInfo, opt => opt.Ignore());
+
+            CreateMap<SaveEntityGeneralInfoRequest, EntityGeneralInfo>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore())
+                .ForMember(dest => dest.EntityInvestorDetailId, opt => opt.Ignore())
+                .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())
+                .ForMember(dest => dest.UpdatedAt, opt => opt.Ignore())
+                .ForMember(dest => dest.EntityInvestorDetail, opt => opt.Ignore())
+                .ForMember(dest => dest.EntityEquityOwners, opt => opt.Ignore());
+
+            CreateMap<AddEntityEquityOwnerRequest, EntityEquityOwner>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore())
+                .ForMember(dest => dest.EntityGeneralInfo, opt => opt.Ignore());
+
+            // General Info mappings - Entity to Response
+            CreateMap<IndividualGeneralInfo, GeneralInfoResponse>()
+                .ForMember(dest => dest.InvestorProfileId, opt => opt.MapFrom(src => src.IndividualInvestorDetail.InvestorProfileId))
+                .ForMember(dest => dest.InvestorType, opt => opt.MapFrom(src => (int)src.IndividualInvestorDetail.InvestorProfile.InvestorType))
+                .ForMember(dest => dest.TypeSpecificData, opt => opt.MapFrom(src => src));
+
+            CreateMap<JointGeneralInfo, GeneralInfoResponse>()
+                .ForMember(dest => dest.InvestorProfileId, opt => opt.MapFrom(src => src.JointInvestorDetail.InvestorProfileId))
+                .ForMember(dest => dest.InvestorType, opt => opt.MapFrom(src => (int)src.JointInvestorDetail.InvestorProfile.InvestorType))
+                .ForMember(dest => dest.TypeSpecificData, opt => opt.MapFrom(src => src));
+
+            CreateMap<IRAGeneralInfo, GeneralInfoResponse>()
+                .ForMember(dest => dest.InvestorProfileId, opt => opt.MapFrom(src => src.IRAInvestorDetail.InvestorProfileId))
+                .ForMember(dest => dest.InvestorType, opt => opt.MapFrom(src => (int)src.IRAInvestorDetail.InvestorProfile.InvestorType))
+                .ForMember(dest => dest.TypeSpecificData, opt => opt.MapFrom(src => src));
+
+            CreateMap<TrustGeneralInfo, GeneralInfoResponse>()
+                .ForMember(dest => dest.InvestorProfileId, opt => opt.MapFrom(src => src.TrustInvestorDetail.InvestorProfileId))
+                .ForMember(dest => dest.InvestorType, opt => opt.MapFrom(src => (int)src.TrustInvestorDetail.InvestorProfile.InvestorType))
+                .ForMember(dest => dest.TypeSpecificData, opt => opt.MapFrom(src => src));
+
+            CreateMap<EntityGeneralInfo, GeneralInfoResponse>()
+                .ForMember(dest => dest.InvestorProfileId, opt => opt.MapFrom(src => src.EntityInvestorDetail.InvestorProfileId))
+                .ForMember(dest => dest.InvestorType, opt => opt.MapFrom(src => (int)src.EntityInvestorDetail.InvestorProfile.InvestorType))
+                .ForMember(dest => dest.TypeSpecificData, opt => opt.MapFrom(src => src));
+
+            CreateMap<JointAccountHolder, JointAccountHolderResponse>()
+                .ForMember(dest => dest.SSN, opt => opt.MapFrom(src =>
+                    string.IsNullOrEmpty(src.SSN) ? string.Empty : "***-**-" + src.SSN.Substring(Math.Max(0, src.SSN.Length - 4))));
+
+            CreateMap<TrustGrantor, TrustGrantorResponse>();
+
+            CreateMap<EntityEquityOwner, EntityEquityOwnerResponse>();
         }
     }
 }

@@ -29,6 +29,11 @@ namespace TWS.Core.DTOs.Response
         public int StatusCode { get; set; }
 
         /// <summary>
+        /// List of error messages if the operation failed
+        /// </summary>
+        public List<string>? Errors { get; set; }
+
+        /// <summary>
         /// Default constructor
         /// </summary>
         public ApiResponse()

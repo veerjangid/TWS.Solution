@@ -1,0 +1,166 @@
+@model TWS.Web.ViewModels.Account.MyAccountViewModel
+
+@{
+    ViewData["Title"] = "My Account";
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12">
+            <h2 class="mb-4">My Account</h2>
+        </div>
+    </div>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            @TempData["ErrorMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <div class="row">
+        <!-- Profile Information -->
+        <div class="col-lg-6 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Profile Information</h5>
+                </div>
+                <div class="card-body">
+                    <form asp-action="UpdateProfile" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                        <div class="mb-3">
+                            <label asp-for="FirstName" class="form-label"></label>
+                            <input asp-for="FirstName" class="form-control" />
+                            <span asp-validation-for="FirstName" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="LastName" class="form-label"></label>
+                            <input asp-for="LastName" class="form-control" />
+                            <span asp-validation-for="LastName" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Email" class="form-label"></label>
+                            <input asp-for="Email" class="form-control" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Role</label>
+                            <input type="text" class="form-control" value="@Model.Role" disabled />
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">Update Profile</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Change Password -->
+        <div class="col-lg-6 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Change Password</h5>
+                </div>
+                <div class="card-body">
+                    <form asp-action="ChangePassword" method="post">
+                        <div class="mb-3">
+                            <label for="CurrentPassword" class="form-label">Current Password</label>
+                            <input type="password" name="CurrentPassword" id="CurrentPassword" class="form-control" required />
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="NewPassword" class="form-label">New Password</label>
+                            <input type="password" name="NewPassword" id="NewPassword" class="form-control" required />
+                            <div class="mt-2">
+                                <small class="text-muted d-block">Password requirements:</small>
+                                <small class="text-muted d-block" id="char-length">• 8-24 characters</small>
+                                <small class="text-muted d-block" id="char-uppercase">• At least 1 uppercase letter</small>
+                                <small class="text-muted d-block" id="char-lowercase">• At least 1 lowercase letter</small>
+                                <small class="text-muted d-block" id="char-number">• At least 1 number</small>
+                                <small class="text-muted d-block" id="char-special">• At least 1 special character (@@$!%*?&#)</small>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="ConfirmPassword" class="form-label">Confirm New Password</label>
+                            <input type="password" name="ConfirmPassword" id="ConfirmPassword" class="form-control" required />
+                            <small class="text-danger d-none" id="password-match-error">Passwords do not match</small>
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-warning">Change Password</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        // Password strength validator
+        document.getElementById('NewPassword').addEventListener('input', function(e) {
+            const password = e.target.value;
+
+            // Check length
+            const lengthValid = password.length >= 8 && password.length <= 24;
+            updateRequirement('char-length', lengthValid);
+
+            // Check uppercase
+            const uppercaseValid = /[A-Z]/.test(password);
+            updateRequirement('char-uppercase', uppercaseValid);
+
+            // Check lowercase
+            const lowercaseValid = /[a-z]/.test(password);
+            updateRequirement('char-lowercase', lowercaseValid);
+
+            // Check number
+            const numberValid = /\d/.test(password);
+            updateRequirement('char-number', numberValid);
+
+            // Check special character
+            const specialValid = /[@@$!%*?&#]/.test(password);
+            updateRequirement('char-special', specialValid);
+        });
+
+        // Password match validator
+        document.getElementById('ConfirmPassword').addEventListener('input', function(e) {
+            const password = document.getElementById('NewPassword').value;
+            const confirmPassword = e.target.value;
+            const errorElement = document.getElementById('password-match-error');
+
+            if (confirmPassword && password !== confirmPassword) {
+                errorElement.classList.remove('d-none');
+            } else {
+                errorElement.classList.add('d-none');
+            }
+        });
+
+        function updateRequirement(id, isValid) {
+            const element = document.getElementById(id);
+            if (isValid) {
+                element.classList.remove('text-muted');
+                element.classList.add('text-success');
+            } else {
+                element.classList.remove('text-success');
+                element.classList.add('text-muted');
+            }
+        }
+    </script>
+}

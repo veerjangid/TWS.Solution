@@ -1,8 +1,76 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Home";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="hero-section py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h1 class="display-3 fw-bold mb-4">Welcome to TWS Investment Platform</h1>
+                <p class="lead mb-4">
+                    Your gateway to real estate investment opportunities.
+                    Manage your investments, track your portfolio, and access exclusive offerings.
+                </p>
+                <div class="d-grid gap-2 d-md-flex">
+                    <a asp-controller="Account" asp-action="Register" class="btn btn-primary btn-lg px-4">
+                        Get Started
+                    </a>
+                    <a asp-controller="Account" asp-action="Login" class="btn btn-outline-primary btn-lg px-4">
+                        Sign In
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-6 d-none d-lg-block">
+                <div class="text-center">
+                    <i class="fas fa-chart-line fa-10x text-primary opacity-75"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="features-section py-5 bg-light">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-12 mb-5">
+                <h2 class="fw-bold">Why Choose TWS?</h2>
+                <p class="text-muted">Comprehensive investment management made simple</p>
+            </div>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <i class="fas fa-shield-alt fa-3x text-primary mb-3"></i>
+                        <h5 class="card-title fw-bold">Secure Platform</h5>
+                        <p class="card-text text-muted">
+                            Bank-level encryption and security to protect your investments and personal information.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <i class="fas fa-chart-pie fa-3x text-primary mb-3"></i>
+                        <h5 class="card-title fw-bold">Portfolio Tracking</h5>
+                        <p class="card-text text-muted">
+                            Real-time tracking of your investments with detailed analytics and performance reports.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <i class="fas fa-headset fa-3x text-primary mb-3"></i>
+                        <h5 class="card-title fw-bold">Expert Support</h5>
+                        <p class="card-text text-muted">
+                            Dedicated advisors to guide you through every step of your investment journey.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

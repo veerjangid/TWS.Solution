@@ -106,5 +106,23 @@ namespace TWS.Data.Entities.Core
         /// Only populated when InvestorType = Entity
         /// </summary>
         public EntityInvestorDetail? EntityProfile { get; set; }
+
+        /// <summary>
+        /// Navigation property to Beneficiaries (one-to-many)
+        /// Collection of beneficiaries (Primary and Contingent) for this investor
+        /// </summary>
+        public ICollection<TWS.Data.Entities.Beneficiaries.Beneficiary>? Beneficiaries { get; set; }
+
+        /// <summary>
+        /// Navigation property to FinancialTeamMembers (one-to-many)
+        /// Collection of financial team members (accountant, attorney, etc.) for this investor
+        /// </summary>
+        public ICollection<TWS.Data.Entities.Financial.FinancialTeamMember>? FinancialTeamMembers { get; set; }
+
+        /// <summary>
+        /// Navigation property to InvestorInvestments (one-to-many)
+        /// Collection of investments made by this investor in various offerings
+        /// </summary>
+        public ICollection<InvestorInvestment>? InvestorInvestments { get; set; }
     }
 }

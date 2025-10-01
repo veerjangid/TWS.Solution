@@ -1,0 +1,115 @@
+@model TWS.Web.ViewModels.Investor.SelectInvestorTypeTrustViewModel
+@{
+    ViewData["Title"] = "Trust Investor Type";
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-warning text-dark">
+                    <h3 class="mb-0">
+                        <i class="fas fa-landmark me-2"></i>Trust Investor
+                    </h3>
+                </div>
+                <div class="card-body p-4">
+                    <p class="text-muted mb-4">
+                        Provide information for your trust account.
+                    </p>
+
+                    @if (TempData["ErrorMessage"] != null)
+                    {
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            @TempData["ErrorMessage"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    }
+
+                    <form asp-action="SubmitTrust" method="post">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+                        <div class="mb-3">
+                            <label asp-for="TrustName" class="form-label"></label>
+                            <input asp-for="TrustName" class="form-control" placeholder="Enter trust name" />
+                            <span asp-validation-for="TrustName" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">@Html.DisplayNameFor(m => m.IsUSTrust)</label>
+                            <div class="form-check">
+                                <input asp-for="IsUSTrust" type="radio" value="true" class="form-check-input" id="usTrustYes" />
+                                <label class="form-check-label" for="usTrustYes">Yes</label>
+                            </div>
+                            <div class="form-check">
+                                <input asp-for="IsUSTrust" type="radio" value="false" class="form-check-input" id="usTrustNo" />
+                                <label class="form-check-label" for="usTrustNo">No</label>
+                            </div>
+                            <span asp-validation-for="IsUSTrust" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="TrustType" class="form-label"></label>
+                            <select asp-for="TrustType" class="form-select">
+                                <option value="">-- Select Trust Type --</option>
+                                <option value="1">Revocable Trust</option>
+                                <option value="2">Irrevocable Trust</option>
+                            </select>
+                            <span asp-validation-for="TrustType" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">@Html.DisplayNameFor(m => m.IsAccredited)</label>
+                            <div class="form-check">
+                                <input asp-for="IsAccredited" type="radio" value="true" class="form-check-input"
+                                       id="accreditedYes" onchange="toggleAccreditationType(true)" />
+                                <label class="form-check-label" for="accreditedYes">Yes</label>
+                            </div>
+                            <div class="form-check">
+                                <input asp-for="IsAccredited" type="radio" value="false" class="form-check-input"
+                                       id="accreditedNo" onchange="toggleAccreditationType(false)" />
+                                <label class="form-check-label" for="accreditedNo">No</label>
+                            </div>
+                            <span asp-validation-for="IsAccredited" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-4" id="accreditationTypeDiv" style="display:none;">
+                            <label asp-for="AccreditationType" class="form-label"></label>
+                            <select asp-for="AccreditationType" class="form-select">
+                                <option value="">-- Select Accreditation Type --</option>
+                                <option value="1">Net Worth ($1M+)</option>
+                                <option value="2">Income ($200K/$300K+)</option>
+                                <option value="3">Series 7 License</option>
+                                <option value="4">Series 65 License</option>
+                                <option value="5">Series 82 License</option>
+                                <option value="6">Professional Role (SEC-registered)</option>
+                            </select>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-warning btn-lg">
+                                <i class="fas fa-arrow-right me-2"></i>Continue
+                            </button>
+                            <a asp-action="SelectType" class="btn btn-outline-secondary">
+                                <i class="fas fa-arrow-left me-2"></i>Back to Type Selection
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        function toggleAccreditationType(show) {
+            document.getElementById('accreditationTypeDiv').style.display = show ? 'block' : 'none';
+        }
+        document.addEventListener('DOMContentLoaded', function() {
+            if (document.getElementById('accreditedYes')?.checked) {
+                toggleAccreditationType(true);
+            }
+        });
+    </script>
+}

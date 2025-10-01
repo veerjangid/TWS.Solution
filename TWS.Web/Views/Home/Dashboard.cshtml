@@ -1,0 +1,127 @@
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12">
+            <h2 class="mb-4">Welcome, @ViewData["UserName"]!</h2>
+            <p class="text-muted">Role: <span class="badge bg-primary">@ViewData["UserRole"]</span></p>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        @if (User.IsInRole("Investor"))
+        {
+            <!-- Investor Dashboard -->
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-3">
+                            <i class="fas fa-id-card fa-2x text-primary me-3"></i>
+                            <h5 class="card-title mb-0">My Profiles</h5>
+                        </div>
+                        <p class="card-text text-muted">Manage your investor profiles and information</p>
+                        <a asp-controller="Investor" asp-action="MyProfiles" class="btn btn-primary">
+                            View Profiles
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-3">
+                            <i class="fas fa-briefcase fa-2x text-primary me-3"></i>
+                            <h5 class="card-title mb-0">My Investments</h5>
+                        </div>
+                        <p class="card-text text-muted">Track your investment portfolio</p>
+                        <a asp-controller="Investment" asp-action="MyInvestments" class="btn btn-primary">
+                            View Investments
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-3">
+                            <i class="fas fa-file-alt fa-2x text-primary me-3"></i>
+                            <h5 class="card-title mb-0">Documents</h5>
+                        </div>
+                        <p class="card-text text-muted">Access your investment documents</p>
+                        <a asp-controller="Document" asp-action="MyDocuments" class="btn btn-primary">
+                            View Documents
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+        else if (User.IsInRole("Advisor") || User.IsInRole("OperationsTeam"))
+        {
+            <!-- Advisor/Operations Dashboard -->
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-3">
+                            <i class="fas fa-tachometer-alt fa-2x text-primary me-3"></i>
+                            <h5 class="card-title mb-0">Portal</h5>
+                        </div>
+                        <p class="card-text text-muted">Access advisor portal and tools</p>
+                        <a asp-controller="Portal" asp-action="Dashboard" class="btn btn-primary">
+                            Open Portal
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-3">
+                            <i class="fas fa-briefcase fa-2x text-primary me-3"></i>
+                            <h5 class="card-title mb-0">Offerings</h5>
+                        </div>
+                        <p class="card-text text-muted">Manage investment offerings</p>
+                        <a asp-controller="Offering" asp-action="Index" class="btn btn-primary">
+                            View Offerings
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-3">
+                            <i class="fas fa-users fa-2x text-primary me-3"></i>
+                            <h5 class="card-title mb-0">Investors</h5>
+                        </div>
+                        <p class="card-text text-muted">Manage investor accounts</p>
+                        <a asp-controller="Portal" asp-action="Investors" class="btn btn-primary">
+                            View Investors
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+
+        <!-- Common Card for All Roles -->
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-3">
+                        <i class="fas fa-cog fa-2x text-primary me-3"></i>
+                        <h5 class="card-title mb-0">My Account</h5>
+                    </div>
+                    <p class="card-text text-muted">Update your account settings</p>
+                    <a asp-controller="Account" asp-action="MyAccount" class="btn btn-primary">
+                        Manage Account
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

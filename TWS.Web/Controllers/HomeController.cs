@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TWS.Web.Models;
 
@@ -15,6 +16,23 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
+        // If user is authenticated, redirect to dashboard
+        if (User.Identity?.IsAuthenticated ?? false)
+        {
+            return RedirectToAction(nameof(Dashboard));
+        }
+
+        return View();
+    }
+
+    [Authorize]
+    public IActionResult Dashboard()
+    {
+        ViewData["UserName"] = User.Identity?.Name ?? "User";
+        ViewData["UserRole"] = User.IsInRole("Investor") ? "Investor" :
+                               User.IsInRole("Advisor") ? "Advisor" :
+                               User.IsInRole("OperationsTeam") ? "Operations Team" : "User";
+
         return View();
     }
 

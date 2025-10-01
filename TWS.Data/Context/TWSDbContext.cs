@@ -2,9 +2,14 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using TWS.Core.Constants;
+using TWS.Data.Entities.Accreditation;
+using TWS.Data.Entities.Beneficiaries;
 using TWS.Data.Entities.Core;
+using TWS.Data.Entities.Documents;
+using TWS.Data.Entities.Financial;
 using TWS.Data.Entities.GeneralInfo;
 using TWS.Data.Entities.Identity;
+using TWS.Data.Entities.PrimaryInvestorInfo;
 using TWS.Data.Entities.TypeSpecific;
 
 namespace TWS.Data.Context
@@ -123,15 +128,104 @@ namespace TWS.Data.Context
         /// </summary>
         public DbSet<EntityEquityOwner> EntityEquityOwners { get; set; }
 
+        /// <summary>
+        /// PrimaryInvestorInfos table - primary investor personal and financial information
+        /// Reference: DatabaseSchema.md Table 18
+        /// </summary>
+        public DbSet<Entities.PrimaryInvestorInfo.PrimaryInvestorInfo> PrimaryInvestorInfos { get; set; }
+
+        /// <summary>
+        /// BrokerAffiliations table - broker-dealer affiliation information
+        /// Reference: DatabaseSchema.md Table 19
+        /// </summary>
+        public DbSet<BrokerAffiliation> BrokerAffiliations { get; set; }
+
+        /// <summary>
+        /// InvestmentExperiences table - investment experience with various asset classes
+        /// Reference: DatabaseSchema.md Table 20
+        /// </summary>
+        public DbSet<InvestmentExperience> InvestmentExperiences { get; set; }
+
+        /// <summary>
+        /// SourceOfFunds table - sources of investment funds
+        /// Reference: DatabaseSchema.md Table 21
+        /// </summary>
+        public DbSet<SourceOfFunds> SourceOfFunds { get; set; }
+
+        /// <summary>
+        /// TaxRates table - tax rate information
+        /// Reference: DatabaseSchema.md Table 22
+        /// </summary>
+        public DbSet<TaxRate> TaxRates { get; set; }
+
+        /// <summary>
+        /// InvestorAccreditations table - investor accreditation information
+        /// Reference: DatabaseSchema.md Table 23
+        /// </summary>
+        public DbSet<InvestorAccreditation> InvestorAccreditations { get; set; }
+
+        /// <summary>
+        /// AccreditationDocuments table - documents uploaded as proof for accreditation
+        /// Reference: DatabaseSchema.md Table 24
+        /// </summary>
+        public DbSet<AccreditationDocument> AccreditationDocuments { get; set; }
+
+        /// <summary>
+        /// Beneficiaries table - stores beneficiary information for investor profiles
+        /// Reference: DatabaseSchema.md Table 19
+        /// </summary>
+        public DbSet<Beneficiary> Beneficiaries { get; set; }
+
+        /// <summary>
+        /// PersonalFinancialStatements table - stores personal financial statement documents
+        /// Reference: DatabaseSchema.md Table 26
+        /// </summary>
+        public DbSet<PersonalFinancialStatement> PersonalFinancialStatements { get; set; }
+
+        /// <summary>
+        /// FinancialGoals table - stores investor's investment objectives and risk preferences
+        /// Reference: DatabaseSchema.md Table 27
+        /// </summary>
+        public DbSet<FinancialGoals> FinancialGoals { get; set; }
+
+        /// <summary>
+        /// InvestorDocuments table - stores document uploads for investor profiles
+        /// Reference: DatabaseSchema.md Table 23
+        /// </summary>
+        public DbSet<InvestorDocument> InvestorDocuments { get; set; }
+
+        /// <summary>
+        /// FinancialTeamMembers table - stores financial team member information for investor profiles
+        /// Reference: DatabaseSchema.md Table 29
+        /// </summary>
+        public DbSet<FinancialTeamMember> FinancialTeamMembers { get; set; }
+
+        /// <summary>
+        /// Offerings table - stores investment opportunities
+        /// Reference: DatabaseSchema.md Table 30
+        /// </summary>
+        public DbSet<TWS.Data.Entities.Portal.Offering> Offerings { get; set; }
+
+        /// <summary>
+        /// OfferingDocuments table - stores documents associated with offerings
+        /// </summary>
+        public DbSet<TWS.Data.Entities.Portal.OfferingDocument> OfferingDocuments { get; set; }
+
+        /// <summary>
+        /// InvestorInvestments table - junction table for many-to-many relationship between InvestorProfile and Offering
+        /// Reference: DatabaseSchema.md Table 31
+        /// </summary>
+        public DbSet<InvestorInvestment> InvestorInvestments { get; set; }
+
+        /// <summary>
+        /// InvestmentTrackers table - Portal/CRM tracking for investments with financial metrics
+        /// Reference: DatabaseSchema.md Table 32
+        /// </summary>
+        public DbSet<TWS.Data.Entities.Portal.InvestmentTracker> InvestmentTrackers { get; set; }
+
         // Future DbSets - Will be added in subsequent phases:
-        // public DbSet<Accreditation> Accreditations { get; set; }
         // public DbSet<InvestmentProfile> InvestmentProfiles { get; set; }
-        // public DbSet<Beneficiary> Beneficiaries { get; set; }
-        // public DbSet<FinancialTeamMember> FinancialTeamMembers { get; set; }
         // public DbSet<BankingInfo> BankingInfos { get; set; }
-        // public DbSet<Document> Documents { get; set; }
-        // public DbSet<Offering> Offerings { get; set; }
-        // public DbSet<InvestorInvestment> InvestorInvestments { get; set; }
 
         /// <summary>
         /// Configure entity relationships and seed data

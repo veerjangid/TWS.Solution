@@ -51,21 +51,21 @@ namespace TWS.Data.Migrations
                         new
                         {
                             Id = "1",
-                            ConcurrencyStamp = "8b7d69d0-e2f1-4ac3-a96b-61ac854a04e9",
+                            ConcurrencyStamp = "60753267-060e-4e65-925a-dc8ce5f44ffe",
                             Name = "Investor",
                             NormalizedName = "INVESTOR"
                         },
                         new
                         {
                             Id = "2",
-                            ConcurrencyStamp = "3bc8aaf4-c180-4f71-8b03-655fedf5c4d9",
+                            ConcurrencyStamp = "63ae19c5-32f0-4869-b7d9-33dc46877443",
                             Name = "Advisor",
                             NormalizedName = "ADVISOR"
                         },
                         new
                         {
                             Id = "3",
-                            ConcurrencyStamp = "cc8d155e-dd73-4b49-b9c7-81af4e74639b",
+                            ConcurrencyStamp = "80e55899-fdcf-4db7-8cd3-223cad5049ce",
                             Name = "OperationsTeam",
                             NormalizedName = "OPERATIONSTEAM"
                         });
@@ -177,6 +177,199 @@ namespace TWS.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("TWS.Data.Entities.Accreditation.AccreditationDocument", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime(6)")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<string>("DocumentPath")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("varchar(500)");
+
+                    b.Property<string>("DocumentType")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<int>("InvestorAccreditationId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime>("UploadDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime(6)")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DocumentType")
+                        .HasDatabaseName("IX_AccreditationDocuments_DocumentType");
+
+                    b.HasIndex("InvestorAccreditationId")
+                        .HasDatabaseName("IX_AccreditationDocuments_InvestorAccreditationId");
+
+                    b.ToTable("AccreditationDocuments", (string)null);
+                });
+
+            modelBuilder.Entity("TWS.Data.Entities.Accreditation.InvestorAccreditation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AccreditationType")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime(6)")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<int>("InvestorProfileId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsVerified")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("tinyint(1)")
+                        .HasDefaultValue(false);
+
+                    b.Property<string>("LicenseNumber")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("Notes")
+                        .HasMaxLength(1000)
+                        .HasColumnType("varchar(1000)");
+
+                    b.Property<string>("StateLicenseHeld")
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime?>("VerificationDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("VerifiedByUserId")
+                        .HasColumnType("varchar(255)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AccreditationType")
+                        .HasDatabaseName("IX_InvestorAccreditations_AccreditationType");
+
+                    b.HasIndex("InvestorProfileId")
+                        .IsUnique()
+                        .HasDatabaseName("IX_InvestorAccreditations_InvestorProfileId");
+
+                    b.HasIndex("IsVerified")
+                        .HasDatabaseName("IX_InvestorAccreditations_IsVerified");
+
+                    b.HasIndex("VerifiedByUserId");
+
+                    b.ToTable("InvestorAccreditations", (string)null);
+                });
+
+            modelBuilder.Entity("TWS.Data.Entities.Beneficiaries.Beneficiary", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("varchar(500)");
+
+                    b.Property<string>("BeneficiaryType")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("varchar(20)");
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime(6)")
+                        .HasDefaultValueSql("GETUTCDATE()");
+
+                    b.Property<DateTime>("DateOfBirth")
+                        .HasColumnType("date");
+
+                    b.Property<string>("FirstMiddleLastName")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<int>("InvestorProfileId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("PercentageOfBenefit")
+                        .HasColumnType("decimal(5,2)");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("varchar(20)");
+
+                    b.Property<string>("RelationshipToOwner")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("SocialSecurityNumber")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("State")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Zip")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("varchar(10)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BeneficiaryType")
+                        .HasDatabaseName("IX_Beneficiaries_BeneficiaryType");
+
+                    b.HasIndex("InvestorProfileId")
+                        .HasDatabaseName("IX_Beneficiaries_InvestorProfileId");
+
+                    b.HasIndex("InvestorProfileId", "BeneficiaryType")
+                        .HasDatabaseName("IX_Beneficiaries_InvestorProfileId_BeneficiaryType");
+
+                    b.ToTable("Beneficiaries", (string)null);
+                });
+
             modelBuilder.Entity("TWS.Data.Entities.Core.AccountRequest", b =>
                 {
                     b.Property<int>("Id")
@@ -246,6 +439,66 @@ namespace TWS.Data.Migrations
                     b.ToTable("AccountRequests", (string)null);
                 });
 
+            modelBuilder.Entity("TWS.Data.Entities.Core.InvestorInvestment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime(6)")
+                        .HasDefaultValueSql("GETUTCDATE()");
+
+                    b.Property<DateTime>("InvestmentDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime(6)")
+                        .HasDefaultValueSql("GETUTCDATE()");
+
+                    b.Property<int>("InvestorProfileId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Notes")
+                        .HasMaxLength(1000)
+                        .HasColumnType("varchar(1000)");
+
+                    b.Property<int>("OfferingId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InvestmentDate")
+                        .HasDatabaseName("IX_InvestorInvestments_InvestmentDate");
+
+                    b.HasIndex("InvestorProfileId")
+                        .HasDatabaseName("IX_InvestorInvestments_InvestorProfileId");
+
+                    b.HasIndex("OfferingId")
+                        .HasDatabaseName("IX_InvestorInvestments_OfferingId");
+
+                    b.HasIndex("Status")
+                        .HasDatabaseName("IX_InvestorInvestments_Status");
+
+                    b.HasIndex("InvestorProfileId", "OfferingId")
+                        .IsUnique()
+                        .HasDatabaseName("UQ_InvestorOffering");
+
+                    b.ToTable("InvestorInvestments", (string)null);
+                });
+
             modelBuilder.Entity("TWS.Data.Entities.Core.InvestorProfile", b =>
                 {
                     b.Property<int>("Id")
@@ -304,6 +557,244 @@ namespace TWS.Data.Migrations
                         .HasDatabaseName("IX_InvestorProfiles_UserId_Unique");
 
                     b.ToTable("InvestorProfiles", (string)null);
+                });
+
+            modelBuilder.Entity("TWS.Data.Entities.Documents.InvestorDocument", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ContentType")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime(6)")
+                        .HasDefaultValueSql("GETUTCDATE()");
+
+                    b.Property<string>("DocumentName")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("FilePath")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("varchar(500)");
+
+                    b.Property<long?>("FileSize")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("InvestorProfileId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime>("UploadDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime(6)")
+                        .HasDefaultValueSql("GETUTCDATE()");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InvestorProfileId")
+                        .HasDatabaseName("IX_InvestorDocuments_InvestorProfileId");
+
+                    b.HasIndex("UploadDate")
+                        .HasDatabaseName("IX_InvestorDocuments_UploadDate");
+
+                    b.ToTable("InvestorDocuments", (string)null);
+                });
+
+            modelBuilder.Entity("TWS.Data.Entities.Financial.FinancialGoals", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AdditionalNotes")
+                        .HasMaxLength(2000)
+                        .HasColumnType("varchar(2000)");
+
+                    b.Property<bool>("ConsistentCashFlow")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("tinyint(1)")
+                        .HasDefaultValue(false);
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime(6)")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<bool>("DeferTaxes")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("tinyint(1)")
+                        .HasDefaultValue(false);
+
+                    b.Property<bool>("Diversification")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("tinyint(1)")
+                        .HasDefaultValue(false);
+
+                    b.Property<bool>("EstateLegacyPlanning")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("tinyint(1)")
+                        .HasDefaultValue(false);
+
+                    b.Property<bool>("GrowPrincipal")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("tinyint(1)")
+                        .HasDefaultValue(false);
+
+                    b.Property<string>("InvestmentObjective")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("varchar(30)");
+
+                    b.Property<string>("InvestmentTimeline")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("varchar(30)");
+
+                    b.Property<int>("InvestorProfileId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("LiquidityNeeds")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("varchar(20)");
+
+                    b.Property<bool>("ProtectPrincipal")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("tinyint(1)")
+                        .HasDefaultValue(false);
+
+                    b.Property<bool>("Retirement")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("tinyint(1)")
+                        .HasDefaultValue(false);
+
+                    b.Property<string>("RiskTolerance")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("varchar(20)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InvestorProfileId")
+                        .IsUnique()
+                        .HasDatabaseName("IX_FinancialGoals_InvestorProfileId");
+
+                    b.ToTable("FinancialGoals", (string)null);
+                });
+
+            modelBuilder.Entity("TWS.Data.Entities.Financial.FinancialTeamMember", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime(6)")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP(6)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<int>("InvestorProfileId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("MemberType")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("varchar(20)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InvestorProfileId")
+                        .HasDatabaseName("IX_FinancialTeamMembers_InvestorProfileId");
+
+                    b.HasIndex("MemberType")
+                        .HasDatabaseName("IX_FinancialTeamMembers_MemberType");
+
+                    b.HasIndex("InvestorProfileId", "MemberType")
+                        .HasDatabaseName("IX_FinancialTeamMembers_InvestorProfileId_MemberType");
+
+                    b.ToTable("FinancialTeamMembers", (string)null);
+                });
+
+            modelBuilder.Entity("TWS.Data.Entities.Financial.PersonalFinancialStatement", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime(6)")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<string>("FilePath")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("varchar(500)");
+
+                    b.Property<int>("InvestorProfileId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("LastModifiedDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime>("UploadDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime(6)")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InvestorProfileId")
+                        .IsUnique()
+                        .HasDatabaseName("IX_PersonalFinancialStatements_InvestorProfileId");
+
+                    b.ToTable("PersonalFinancialStatements", (string)null);
                 });
 
             modelBuilder.Entity("TWS.Data.Entities.GeneralInfo.EntityEquityOwner", b =>
@@ -932,6 +1423,561 @@ namespace TWS.Data.Migrations
                     b.ToTable("RefreshTokens", (string)null);
                 });
 
+            modelBuilder.Entity("TWS.Data.Entities.Portal.InvestmentTracker", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("AltAUM")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("AltRevenue")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("ClientName")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime(6)")
+                        .HasDefaultValueSql("GETUTCDATE()");
+
+                    b.Property<decimal>("DSTAUM")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("DSTRevenue")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime?>("DateInvestmentClosed")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("InitialVsRecurringRevenue")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("InvestmentHeldInNamesOf")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("varchar(500)");
+
+                    b.Property<string>("InvestmentType")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<int>("InvestorProfileId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("LeadOwnerLicensedRep")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<string>("MarketingSource")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<string>("Notes")
+                        .HasMaxLength(2000)
+                        .HasColumnType("varchar(2000)");
+
+                    b.Property<decimal>("OGAUM")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("OfferingId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("OilAndGasRevenue")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("OriginalEquityInvestmentAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("ReferredBy")
+                        .HasMaxLength(200)
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<string>("Relationship")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<decimal>("RepCommissionAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<decimal>("TWSRevenue")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("TaxStrategyAUM")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("TaxStrategyRevenue")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("TotalTWSAUM")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InvestmentType")
+                        .HasDatabaseName("IX_InvestmentTrackers_InvestmentType");
+
+                    b.HasIndex("InvestorProfileId")
+                        .HasDatabaseName("IX_InvestmentTrackers_InvestorProfileId");
+
+                    b.HasIndex("LeadOwnerLicensedRep")
+                        .HasDatabaseName("IX_InvestmentTrackers_LeadOwnerLicensedRep");
+
+                    b.HasIndex("OfferingId")
+                        .HasDatabaseName("IX_InvestmentTrackers_OfferingId");
+
+                    b.HasIndex("Status")
+                        .HasDatabaseName("IX_InvestmentTrackers_Status");
+
+                    b.HasIndex("OfferingId", "InvestorProfileId")
+                        .HasDatabaseName("IX_InvestmentTrackers_OfferingId_InvestorProfileId");
+
+                    b.ToTable("InvestmentTrackers", (string)null);
+                });
+
+            modelBuilder.Entity("TWS.Data.Entities.Portal.Offering", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime(6)")
+                        .HasDefaultValueSql("GETUTCDATE()");
+
+                    b.Property<string>("CreatedByUserId")
+                        .HasMaxLength(450)
+                        .HasColumnType("varchar(450)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime(6)")
+                        .HasDefaultValueSql("GETUTCDATE()");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(2000)
+                        .HasColumnType("varchar(2000)");
+
+                    b.Property<string>("ImagePath")
+                        .HasMaxLength(500)
+                        .HasColumnType("varchar(500)");
+
+                    b.Property<DateTime?>("LastModifiedDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("ModifiedByUserId")
+                        .HasMaxLength(450)
+                        .HasColumnType("varchar(450)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<string>("OfferingType")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("PDFPath")
+                        .HasMaxLength(500)
+                        .HasColumnType("varchar(500)");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)")
+                        .HasDefaultValue("Raising");
+
+                    b.Property<decimal?>("TotalValue")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatedByUserId")
+                        .HasDatabaseName("IX_Offerings_CreatedByUserId");
+
+                    b.HasIndex("CreatedDate")
+                        .HasDatabaseName("IX_Offerings_CreatedDate");
+
+                    b.HasIndex("ModifiedByUserId")
+                        .HasDatabaseName("IX_Offerings_ModifiedByUserId");
+
+                    b.HasIndex("OfferingType")
+                        .HasDatabaseName("IX_Offerings_OfferingType");
+
+                    b.HasIndex("Status")
+                        .HasDatabaseName("IX_Offerings_Status");
+
+                    b.ToTable("Offerings", (string)null);
+                });
+
+            modelBuilder.Entity("TWS.Data.Entities.Portal.OfferingDocument", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime(6)")
+                        .HasDefaultValueSql("GETUTCDATE()");
+
+                    b.Property<string>("DocumentName")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<string>("FilePath")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("varchar(500)");
+
+                    b.Property<int>("OfferingId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime>("UploadDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime(6)")
+                        .HasDefaultValueSql("GETUTCDATE()");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OfferingId")
+                        .HasDatabaseName("IX_OfferingDocuments_OfferingId");
+
+                    b.HasIndex("UploadDate")
+                        .HasDatabaseName("IX_OfferingDocuments_UploadDate");
+
+                    b.ToTable("OfferingDocuments", (string)null);
+                });
+
+            modelBuilder.Entity("TWS.Data.Entities.PrimaryInvestorInfo.BrokerAffiliation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("BrokerDealerName")
+                        .HasMaxLength(200)
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime(6)")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<string>("EmployeeName")
+                        .HasMaxLength(200)
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<bool>("IsEmployeeOfBrokerDealer")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("IsManagerMemberExecutive")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("IsRelatedToEmployee")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("IsSeniorOfficer")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<int>("PrimaryInvestorInfoId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("RelatedBrokerDealerName")
+                        .HasMaxLength(200)
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<string>("Relationship")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PrimaryInvestorInfoId")
+                        .HasDatabaseName("IX_BrokerAffiliations_PrimaryInvestorInfoId");
+
+                    b.ToTable("BrokerAffiliations", (string)null);
+                });
+
+            modelBuilder.Entity("TWS.Data.Entities.PrimaryInvestorInfo.InvestmentExperience", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AssetClass")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime(6)")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<string>("ExperienceLevel")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<string>("OtherDescription")
+                        .HasMaxLength(500)
+                        .HasColumnType("varchar(500)");
+
+                    b.Property<int>("PrimaryInvestorInfoId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PrimaryInvestorInfoId")
+                        .HasDatabaseName("IX_InvestmentExperiences_PrimaryInvestorInfoId");
+
+                    b.HasIndex("PrimaryInvestorInfoId", "AssetClass")
+                        .HasDatabaseName("IX_InvestmentExperiences_PrimaryInvestorInfoId_AssetClass");
+
+                    b.ToTable("InvestmentExperiences", (string)null);
+                });
+
+            modelBuilder.Entity("TWS.Data.Entities.PrimaryInvestorInfo.PrimaryInvestorInfo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AlternateAddress")
+                        .HasMaxLength(500)
+                        .HasColumnType("varchar(500)");
+
+                    b.Property<decimal>("AnticipatedIncomeThisYear")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("CellPhoneNumber")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("varchar(20)");
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime(6)")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<DateTime>("DateOfBirth")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime>("DriversLicenseExpirationDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("DriversLicenseNumber")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<string>("EmployerName")
+                        .HasMaxLength(200)
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<bool>("HasAlternateAddress")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<int>("InvestorProfileId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsMarried")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("IsRelyingOnJointIncome")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("LegalStreetAddress")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("varchar(500)");
+
+                    b.Property<decimal>("LowestIncomeLastTwoYears")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Occupation")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<string>("RetiredProfession")
+                        .HasMaxLength(200)
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<string>("SocialSecurityNumber")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("State")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Zip")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("varchar(10)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Email")
+                        .HasDatabaseName("IX_PrimaryInvestorInfos_Email");
+
+                    b.HasIndex("InvestorProfileId")
+                        .IsUnique()
+                        .HasDatabaseName("IX_PrimaryInvestorInfos_InvestorProfileId");
+
+                    b.HasIndex("LastName")
+                        .HasDatabaseName("IX_PrimaryInvestorInfos_LastName");
+
+                    b.ToTable("PrimaryInvestorInfos", (string)null);
+                });
+
+            modelBuilder.Entity("TWS.Data.Entities.PrimaryInvestorInfo.SourceOfFunds", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime(6)")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<int>("PrimaryInvestorInfoId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SourceType")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PrimaryInvestorInfoId")
+                        .HasDatabaseName("IX_SourceOfFunds_PrimaryInvestorInfoId");
+
+                    b.HasIndex("PrimaryInvestorInfoId", "SourceType")
+                        .HasDatabaseName("IX_SourceOfFunds_PrimaryInvestorInfoId_SourceType");
+
+                    b.ToTable("SourceOfFunds", (string)null);
+                });
+
+            modelBuilder.Entity("TWS.Data.Entities.PrimaryInvestorInfo.TaxRate", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime(6)")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<int>("PrimaryInvestorInfoId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TaxRateRange")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PrimaryInvestorInfoId")
+                        .HasDatabaseName("IX_TaxRates_PrimaryInvestorInfoId");
+
+                    b.HasIndex("PrimaryInvestorInfoId", "TaxRateRange")
+                        .HasDatabaseName("IX_TaxRates_PrimaryInvestorInfoId_TaxRateRange");
+
+                    b.ToTable("TaxRates", (string)null);
+                });
+
             modelBuilder.Entity("TWS.Data.Entities.TypeSpecific.EntityInvestorDetail", b =>
                 {
                     b.Property<int>("Id")
@@ -1221,6 +2267,49 @@ namespace TWS.Data.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("TWS.Data.Entities.Accreditation.AccreditationDocument", b =>
+                {
+                    b.HasOne("TWS.Data.Entities.Accreditation.InvestorAccreditation", "InvestorAccreditation")
+                        .WithMany("AccreditationDocuments")
+                        .HasForeignKey("InvestorAccreditationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_AccreditationDocuments_InvestorAccreditations");
+
+                    b.Navigation("InvestorAccreditation");
+                });
+
+            modelBuilder.Entity("TWS.Data.Entities.Accreditation.InvestorAccreditation", b =>
+                {
+                    b.HasOne("TWS.Data.Entities.Core.InvestorProfile", "InvestorProfile")
+                        .WithOne()
+                        .HasForeignKey("TWS.Data.Entities.Accreditation.InvestorAccreditation", "InvestorProfileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_InvestorAccreditations_InvestorProfiles");
+
+                    b.HasOne("TWS.Data.Entities.Identity.ApplicationUser", "VerifiedByUser")
+                        .WithMany()
+                        .HasForeignKey("VerifiedByUserId")
+                        .OnDelete(DeleteBehavior.SetNull)
+                        .HasConstraintName("FK_InvestorAccreditations_ApplicationUsers");
+
+                    b.Navigation("InvestorProfile");
+
+                    b.Navigation("VerifiedByUser");
+                });
+
+            modelBuilder.Entity("TWS.Data.Entities.Beneficiaries.Beneficiary", b =>
+                {
+                    b.HasOne("TWS.Data.Entities.Core.InvestorProfile", "InvestorProfile")
+                        .WithMany("Beneficiaries")
+                        .HasForeignKey("InvestorProfileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("InvestorProfile");
+                });
+
             modelBuilder.Entity("TWS.Data.Entities.Core.AccountRequest", b =>
                 {
                     b.HasOne("TWS.Data.Entities.Identity.ApplicationUser", "ProcessedByUser")
@@ -1229,6 +2318,25 @@ namespace TWS.Data.Migrations
                         .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("ProcessedByUser");
+                });
+
+            modelBuilder.Entity("TWS.Data.Entities.Core.InvestorInvestment", b =>
+                {
+                    b.HasOne("TWS.Data.Entities.Core.InvestorProfile", "InvestorProfile")
+                        .WithMany("InvestorInvestments")
+                        .HasForeignKey("InvestorProfileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TWS.Data.Entities.Portal.Offering", "Offering")
+                        .WithMany("InvestorInvestments")
+                        .HasForeignKey("OfferingId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("InvestorProfile");
+
+                    b.Navigation("Offering");
                 });
 
             modelBuilder.Entity("TWS.Data.Entities.Core.InvestorProfile", b =>
@@ -1240,6 +2348,52 @@ namespace TWS.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("TWS.Data.Entities.Documents.InvestorDocument", b =>
+                {
+                    b.HasOne("TWS.Data.Entities.Core.InvestorProfile", "InvestorProfile")
+                        .WithMany()
+                        .HasForeignKey("InvestorProfileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("InvestorProfile");
+                });
+
+            modelBuilder.Entity("TWS.Data.Entities.Financial.FinancialGoals", b =>
+                {
+                    b.HasOne("TWS.Data.Entities.Core.InvestorProfile", "InvestorProfile")
+                        .WithOne()
+                        .HasForeignKey("TWS.Data.Entities.Financial.FinancialGoals", "InvestorProfileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_FinancialGoals_InvestorProfile");
+
+                    b.Navigation("InvestorProfile");
+                });
+
+            modelBuilder.Entity("TWS.Data.Entities.Financial.FinancialTeamMember", b =>
+                {
+                    b.HasOne("TWS.Data.Entities.Core.InvestorProfile", "InvestorProfile")
+                        .WithMany("FinancialTeamMembers")
+                        .HasForeignKey("InvestorProfileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("InvestorProfile");
+                });
+
+            modelBuilder.Entity("TWS.Data.Entities.Financial.PersonalFinancialStatement", b =>
+                {
+                    b.HasOne("TWS.Data.Entities.Core.InvestorProfile", "InvestorProfile")
+                        .WithOne()
+                        .HasForeignKey("TWS.Data.Entities.Financial.PersonalFinancialStatement", "InvestorProfileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_PersonalFinancialStatements_InvestorProfile");
+
+                    b.Navigation("InvestorProfile");
                 });
 
             modelBuilder.Entity("TWS.Data.Entities.GeneralInfo.EntityEquityOwner", b =>
@@ -1341,6 +2495,108 @@ namespace TWS.Data.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("TWS.Data.Entities.Portal.InvestmentTracker", b =>
+                {
+                    b.HasOne("TWS.Data.Entities.Core.InvestorProfile", "InvestorProfile")
+                        .WithMany()
+                        .HasForeignKey("InvestorProfileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TWS.Data.Entities.Portal.Offering", "Offering")
+                        .WithMany()
+                        .HasForeignKey("OfferingId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("InvestorProfile");
+
+                    b.Navigation("Offering");
+                });
+
+            modelBuilder.Entity("TWS.Data.Entities.Portal.Offering", b =>
+                {
+                    b.HasOne("TWS.Data.Entities.Identity.ApplicationUser", "CreatedByUser")
+                        .WithMany()
+                        .HasForeignKey("CreatedByUserId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("TWS.Data.Entities.Identity.ApplicationUser", "ModifiedByUser")
+                        .WithMany()
+                        .HasForeignKey("ModifiedByUserId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.Navigation("CreatedByUser");
+
+                    b.Navigation("ModifiedByUser");
+                });
+
+            modelBuilder.Entity("TWS.Data.Entities.Portal.OfferingDocument", b =>
+                {
+                    b.HasOne("TWS.Data.Entities.Portal.Offering", "Offering")
+                        .WithMany("OfferingDocuments")
+                        .HasForeignKey("OfferingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Offering");
+                });
+
+            modelBuilder.Entity("TWS.Data.Entities.PrimaryInvestorInfo.BrokerAffiliation", b =>
+                {
+                    b.HasOne("TWS.Data.Entities.PrimaryInvestorInfo.PrimaryInvestorInfo", "PrimaryInvestorInfo")
+                        .WithMany("BrokerAffiliations")
+                        .HasForeignKey("PrimaryInvestorInfoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("PrimaryInvestorInfo");
+                });
+
+            modelBuilder.Entity("TWS.Data.Entities.PrimaryInvestorInfo.InvestmentExperience", b =>
+                {
+                    b.HasOne("TWS.Data.Entities.PrimaryInvestorInfo.PrimaryInvestorInfo", "PrimaryInvestorInfo")
+                        .WithMany("InvestmentExperiences")
+                        .HasForeignKey("PrimaryInvestorInfoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("PrimaryInvestorInfo");
+                });
+
+            modelBuilder.Entity("TWS.Data.Entities.PrimaryInvestorInfo.PrimaryInvestorInfo", b =>
+                {
+                    b.HasOne("TWS.Data.Entities.Core.InvestorProfile", "InvestorProfile")
+                        .WithOne()
+                        .HasForeignKey("TWS.Data.Entities.PrimaryInvestorInfo.PrimaryInvestorInfo", "InvestorProfileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("InvestorProfile");
+                });
+
+            modelBuilder.Entity("TWS.Data.Entities.PrimaryInvestorInfo.SourceOfFunds", b =>
+                {
+                    b.HasOne("TWS.Data.Entities.PrimaryInvestorInfo.PrimaryInvestorInfo", "PrimaryInvestorInfo")
+                        .WithMany("SourceOfFunds")
+                        .HasForeignKey("PrimaryInvestorInfoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("PrimaryInvestorInfo");
+                });
+
+            modelBuilder.Entity("TWS.Data.Entities.PrimaryInvestorInfo.TaxRate", b =>
+                {
+                    b.HasOne("TWS.Data.Entities.PrimaryInvestorInfo.PrimaryInvestorInfo", "PrimaryInvestorInfo")
+                        .WithMany("TaxRates")
+                        .HasForeignKey("PrimaryInvestorInfoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("PrimaryInvestorInfo");
+                });
+
             modelBuilder.Entity("TWS.Data.Entities.TypeSpecific.EntityInvestorDetail", b =>
                 {
                     b.HasOne("TWS.Data.Entities.Core.InvestorProfile", "InvestorProfile")
@@ -1396,13 +2652,24 @@ namespace TWS.Data.Migrations
                     b.Navigation("InvestorProfile");
                 });
 
+            modelBuilder.Entity("TWS.Data.Entities.Accreditation.InvestorAccreditation", b =>
+                {
+                    b.Navigation("AccreditationDocuments");
+                });
+
             modelBuilder.Entity("TWS.Data.Entities.Core.InvestorProfile", b =>
                 {
+                    b.Navigation("Beneficiaries");
+
                     b.Navigation("EntityProfile");
+
+                    b.Navigation("FinancialTeamMembers");
 
                     b.Navigation("IRAProfile");
 
                     b.Navigation("IndividualProfile");
+
+                    b.Navigation("InvestorInvestments");
 
                     b.Navigation("JointProfile");
 
@@ -1422,6 +2689,24 @@ namespace TWS.Data.Migrations
             modelBuilder.Entity("TWS.Data.Entities.GeneralInfo.TrustGeneralInfo", b =>
                 {
                     b.Navigation("TrustGrantors");
+                });
+
+            modelBuilder.Entity("TWS.Data.Entities.Portal.Offering", b =>
+                {
+                    b.Navigation("InvestorInvestments");
+
+                    b.Navigation("OfferingDocuments");
+                });
+
+            modelBuilder.Entity("TWS.Data.Entities.PrimaryInvestorInfo.PrimaryInvestorInfo", b =>
+                {
+                    b.Navigation("BrokerAffiliations");
+
+                    b.Navigation("InvestmentExperiences");
+
+                    b.Navigation("SourceOfFunds");
+
+                    b.Navigation("TaxRates");
                 });
 #pragma warning restore 612, 618
         }

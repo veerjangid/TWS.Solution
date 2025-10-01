@@ -1,0 +1,33 @@
+<div class="loading-spinner d-none" id="loadingSpinner">
+    <div class="spinner-overlay">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <p class="mt-2 text-white">Loading...</p>
+    </div>
+</div>
+
+<style>
+    .loading-spinner {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .spinner-overlay {
+        background: rgba(0, 0, 0, 0.7);
+        padding: 2rem;
+        border-radius: 10px;
+        text-align: center;
+    }
+
+    .loading-spinner.d-none {
+        display: none !important;
+    }
+</style>
